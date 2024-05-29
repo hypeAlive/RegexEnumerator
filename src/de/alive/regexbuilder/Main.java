@@ -1,7 +1,7 @@
 package de.alive.regexbuilder;
 
 import de.alive.regexbuilder.utils.RegexAlphabet;
-import de.alive.regexbuilder.utils.RegexOperationString;
+import de.alive.regexbuilder.utils.RegexOperationManager;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ public class Main {
         alphabet.addCharacter('a', 'b'); // füge weitere zeichen zum alphabet hinzu
 
         //Erstelle ein Objekt, um die RegexStrings zu generieren - mit Anzeige von nur nötigen Klammern
-        RegexOperationString operationString = RegexOperationString.create()
-                .setBracketMode(RegexOperationString.BracketMode.NECESSARY)
+        RegexOperationManager operationString = RegexOperationManager.create()
+                .setBracketMode(RegexOperationManager.BracketMode.NECESSARY)
                 .build();
 
         //Enumerator Objekt um damit die liste zu erzeugen

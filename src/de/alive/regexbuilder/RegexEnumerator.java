@@ -1,7 +1,7 @@
 package de.alive.regexbuilder;
 
 import de.alive.regexbuilder.utils.RegexAlphabet;
-import de.alive.regexbuilder.utils.RegexOperationString;
+import de.alive.regexbuilder.utils.RegexOperationManager;
 
 import java.util.*;
 
@@ -12,17 +12,17 @@ import java.util.*;
 public class RegexEnumerator {
 
     private final RegexAlphabet alphabet;
-    private final RegexOperationString operationString;
+    private final RegexOperationManager operationManager;
 
     /**
      * Erstellt einen neuen RegexEnumerator.
      *
      * @param alphabet Das Alphabet, das für die Erzeugung der regulären Ausdrücke verwendet wird.
-     * @param operationString Die Sammlung von Operationen, die für die Erzeugung der regulären Ausdrücke verwendet wird.
+     * @param operationManager Die Sammlung von Operationen, die für die Erzeugung der regulären Ausdrücke verwendet wird.
      */
-    public RegexEnumerator(RegexAlphabet alphabet, RegexOperationString operationString) {
+    public RegexEnumerator(RegexAlphabet alphabet, RegexOperationManager operationManager) {
         this.alphabet = alphabet;
-        this.operationString = operationString;
+        this.operationManager = operationManager;
     }
 
     /**
@@ -84,21 +84,21 @@ public class RegexEnumerator {
         // Durchlaufe alle regulären Ausdrücke
         for (String expr2 : regexes) {
             // Füge die Konkatenation von expr1 und expr2 zu den neuen regulären Ausdrücken hinzu
-            newRegexes.add(this.operationString.concat(expr1, expr2));
+            newRegexes.add(this.operationManager.concat(expr1, expr2));
             // Wenn die Größe von newRegexes das Limit erreicht, beende die Methode und gebe true zurück
             if (newRegexes.size() >= limit) {
                 return true;
             }
 
             // Füge die Alternative von expr1 und expr2 zu den neuen regulären Ausdrücken hinzu
-            newRegexes.add(this.operationString.alternation(expr1, expr2));
+            newRegexes.add(this.operationManager.alternation(expr1, expr2));
             // Wenn die Größe von newRegexes das Limit erreicht, beende die Methode und gebe true zurück
             if (newRegexes.size() >= limit) {
                 return true;
             }
 
             // Füge den Kleene-Stern von expr1 zu den neuen regulären Ausdrücken hinzu
-            newRegexes.add(this.operationString.kleene(expr1));
+            newRegexes.add(this.operationManager.kleene(expr1));
             // Wenn die Größe von newRegexes das Limit erreicht, beende die Methode und gebe true zurück
             if (newRegexes.size() >= limit) {
                 return true;

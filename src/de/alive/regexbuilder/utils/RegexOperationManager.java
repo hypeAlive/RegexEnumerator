@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
  Sie unterstützt Konkatenation, Alternation und Kleene-Stern-Operationen.
  Sie dient dazu, diese regulären Ausdrücke als String darzustellen.
  */
-public class RegexOperationString {
+public class RegexOperationManager {
 
     /**
      * Enum zur Definition des Klammermodus.
@@ -32,15 +32,15 @@ public class RegexOperationString {
     private final BracketMode bracketMode;
 
     /**
-     * Privater Konstruktor für RegexOperationString.
-     * Nicht zur Nutzung gedacht. Benutze RegexOperationString.create() oder direkten Builder
+     * Privater Konstruktor für RegexOperationManager.
+     * Nicht zur Nutzung gedacht. Benutze RegexOperationManager.create() oder direkten Builder
      *
      * @param concatSymbol Das Symbol für die Konkatenation.
      * @param alternationSymbol Das Symbol für die Alternation.
      * @param kleeneSymbol Das Symbol für den Kleene-Stern.
      * @param bracketMode Der Modus für die Verwendung von Klammern.
      */
-    private RegexOperationString(char concatSymbol, char alternationSymbol, char kleeneSymbol, BracketMode bracketMode) {
+    private RegexOperationManager(char concatSymbol, char alternationSymbol, char kleeneSymbol, BracketMode bracketMode) {
         this.concatSymbol = concatSymbol;
         this.alternationSymbol = alternationSymbol;
         this.kleeneSymbol = kleeneSymbol;
@@ -105,23 +105,23 @@ public class RegexOperationString {
     }
 
     /**
-     * Erstellt einen neuen Builder für RegexOperationString.
+     * Erstellt einen neuen Builder für RegexOperationManager.
      *
-     * @return Ein neuer RegexOperationString-Builder.
+     * @return Ein neuer RegexOperationManager-Builder.
      */
     public static Builder create() {
         return new Builder();
     }
 
     /**
-     * Builder-Klasse für RegexOperationString.
-     * Mit diesem Builder kann gesteuert werden wie der RegexOperationString aussehen soll.
+     * Builder-Klasse für RegexOperationManager.
+     * Mit diesem Builder kann gesteuert werden wie der RegexOperationManager aussehen soll.
      */
     public static class Builder {
 
-        private char concatSymbol = RegexOperationString.CONCAT;
-        private char alternationSymbol = RegexOperationString.ALTERNATION;
-        private char kleeneSymbol = RegexOperationString.KLEENE;
+        private char concatSymbol = RegexOperationManager.CONCAT;
+        private char alternationSymbol = RegexOperationManager.ALTERNATION;
+        private char kleeneSymbol = RegexOperationManager.KLEENE;
         private BracketMode bracketMode = BracketMode.NONE;
 
         /**
@@ -169,12 +169,12 @@ public class RegexOperationString {
         }
 
         /**
-         * Erstellt ein neues RegexOperationString-Objekt aus dem Builder.
+         * Erstellt ein neues RegexOperationManager-Objekt aus dem Builder.
          *
-         * @return Ein neues RegexOperationString-Objekt.
+         * @return Ein neues RegexOperationManager-Objekt.
          */
-        public RegexOperationString build() {
-            return new RegexOperationString(concatSymbol, alternationSymbol, kleeneSymbol, bracketMode);
+        public RegexOperationManager build() {
+            return new RegexOperationManager(concatSymbol, alternationSymbol, kleeneSymbol, bracketMode);
         }
     }
 }
