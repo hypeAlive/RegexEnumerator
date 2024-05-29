@@ -26,10 +26,10 @@ public class RegexOperationString {
     //Regex um Klammern zu entfernen
     private static final Pattern bracketRemover = Pattern.compile("\\\\(([^()]+)\\\\)");
 
-    private char concatSymbol;
-    private char alternationSymbol;
-    private char kleeneSymbol;
-    private BracketMode bracketMode;
+    private final char concatSymbol;
+    private final char alternationSymbol;
+    private final char kleeneSymbol;
+    private final BracketMode bracketMode;
 
     /**
      * Privater Konstruktor für RegexOperationString.
