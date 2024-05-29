@@ -1,6 +1,6 @@
 package main.java.de.alive.regexbuilder.utils;
 
-public class OperationStringBuilder {
+public class RegexOperationString {
 
     public enum BracketMode {
         NONE,
@@ -17,7 +17,7 @@ public class OperationStringBuilder {
     private char kleeneSymbol;
     private BracketMode bracketMode;
 
-    private OperationStringBuilder(char concatSymbol, char alternationSymbol, char kleeneSymbol, BracketMode bracketMode) {
+    private RegexOperationString(char concatSymbol, char alternationSymbol, char kleeneSymbol, BracketMode bracketMode) {
         this.concatSymbol = concatSymbol;
         this.alternationSymbol = alternationSymbol;
         this.kleeneSymbol = kleeneSymbol;
@@ -41,9 +41,9 @@ public class OperationStringBuilder {
 
     public static class Builder {
 
-        private char concatSymbol = OperationStringBuilder.CONCAT;
-        private char alternationSymbol = OperationStringBuilder.ALTERNATION;
-        private char kleeneSymbol = OperationStringBuilder.KLEENE;
+        private char concatSymbol = RegexOperationString.CONCAT;
+        private char alternationSymbol = RegexOperationString.ALTERNATION;
+        private char kleeneSymbol = RegexOperationString.KLEENE;
         private BracketMode bracketMode = BracketMode.NONE;
 
         public Builder setConcatSymbol(char concatSymbol) {
@@ -66,8 +66,8 @@ public class OperationStringBuilder {
             return this;
         }
 
-        public OperationStringBuilder build() {
-            return new OperationStringBuilder(concatSymbol, alternationSymbol, kleeneSymbol, bracketMode);
+        public RegexOperationString build() {
+            return new RegexOperationString(concatSymbol, alternationSymbol, kleeneSymbol, bracketMode);
         }
     }
 }
