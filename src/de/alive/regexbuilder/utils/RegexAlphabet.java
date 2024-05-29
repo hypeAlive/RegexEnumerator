@@ -11,8 +11,8 @@ public class RegexAlphabet {
     public static final char EPSILON = '\u03B5';
     public static final char EMPTY = '\u2205';
 
-    private LinkedHashSet<Character> alphabet;
-    private boolean includeSpecialCharacters = false;
+    private final LinkedHashSet<Character> alphabet;
+    private final boolean includeSpecialCharacters;
 
     /**
      * Erstellt ein neues RegexAlphabet.
