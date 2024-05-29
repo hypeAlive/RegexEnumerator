@@ -39,6 +39,10 @@ public class RegexOperationString {
         return bracketMode != BracketMode.ALL ? "(" + result + ")" : result;
     }
 
+    public static Builder create() {
+        return new Builder();
+    }
+
     public static class Builder {
 
         private char concatSymbol = RegexOperationString.CONCAT;
