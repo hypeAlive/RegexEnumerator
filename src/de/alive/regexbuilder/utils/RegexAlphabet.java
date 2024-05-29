@@ -1,19 +1,18 @@
 package de.alive.regexbuilder.utils;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class RegexAlphabet {
 
     public static final char EPSILON = '\u03B5';
     public static final char EMPTY = '\u2205';
 
-    private Set<Character> alphabet;
+    private LinkedHashSet<Character> alphabet;
     private boolean includeSpecialCharacters = false;
 
     public RegexAlphabet(boolean includeSpecialCharacters) {
         this.includeSpecialCharacters = includeSpecialCharacters;
-        this.alphabet = new HashSet<>();
+        this.alphabet = new LinkedHashSet<>();
         if (includeSpecialCharacters) {
             alphabet.add(EPSILON);
             alphabet.add(EMPTY);
@@ -40,8 +39,8 @@ public class RegexAlphabet {
         return alphabet.contains(c);
     }
 
-    public Set<Character> getAlphabet() {
-        return new HashSet<>(alphabet);
+    public List<Character> getAlphabet() {
+        return new ArrayList<>(alphabet);
     }
 
 }
