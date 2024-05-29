@@ -4,14 +4,10 @@ import de.alive.regexbuilder.utils.RegexAlphabet;
 import de.alive.regexbuilder.utils.RegexOperationString;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 
 public class RegexEnumerator {
-
-    public enum SortOrder {
-        NO_SORT,
-        SMALL_FIRST,
-        BIG_FIRST
-    }
 
     private final RegexAlphabet alphabet;
     private final RegexOperationString operationString;
@@ -21,52 +17,43 @@ public class RegexEnumerator {
         this.operationString = operationString;
     }
 
-    public List<String> enumerate(int limit, SortOrder sortOrder) {
-        Set<String> regexes;
-        if (sortOrder == SortOrder.NO_SORT) {
-            regexes = new HashSet<>();
-        } else {
-            regexes = new TreeSet<>((a, b) -> {
-                int cmp = Integer.compare(a.length(), b.length());
-                if (cmp != 0) {
-                    return sortOrder == SortOrder.SMALL_FIRST ? cmp : -cmp;
-                } else {
-                    return a.compareTo(b);
-                }
-            });
+    public List<String> enumerate(int limit) {
+        List<Character> alphabetList = alphabet.getAlphabet();
+        Set<String> regexes = new LinkedHashSet<>();
+
+        // Basisoperationen hinzufügen
+        regexes.add(String.valueOf(RegexAlphabet.EPSILON));
+        regexes.add(String.valueOf(RegexAlphabet.EMPTY));
+        for (char c : alphabetList) {
+            regexes.add(String.valueOf(c));
         }
 
-        Queue<String> queue = new LinkedList<>();
+        // Alle Kombinationen erstellen
+        while (regexes.size() < limit) {
+            Set<String> newRegexes = new LinkedHashSet<>(regexes);
 
-        for (char c : alphabet.getAlphabet()) {
-            queue.add(String.valueOf(c));
-        }
+            for (String expr1 : regexes) {
+                for (String expr2 : regexes) {
+                    if (newRegexes.size() >= limit) break;
 
-        while (!queue.isEmpty() && regexes.size() < limit) {
-            String current = queue.poll();
-            if (regexes.add(current)) {
-                for (char c : alphabet.getAlphabet()) {
-                    for (String regex : new ArrayList<>(regexes)) {
-                        // Konkatenation
-                        String newRegex = operationString.concat(current, String.valueOf(c));
-                        if (!regexes.contains(newRegex)) {
-                            queue.add(newRegex);
-                        }
+                    // Konkatenation
+                    newRegexes.add(this.operationString.concat(expr1, expr2));
+                    if (newRegexes.size() >= limit) break;
 
-                        // Alternative
-                        newRegex = operationString.alternation(current, String.valueOf(c));
-                        if (!regexes.contains(newRegex)) {
-                            queue.add(newRegex);
-                        }
+                    // Alternative
+                    newRegexes.add(this.operationString.alternation(expr1, expr2));
+                    if (newRegexes.size() >= limit) break;
 
-                        // Kleene-Stern
-                        newRegex = operationString.kleene(current);
-                        if (!regexes.contains(newRegex)) {
-                            queue.add(newRegex);
-                        }
-                    }
+                    // Kleene-Stern
+                    newRegexes.add(this.operationString.kleene(expr1));
                 }
             }
+
+            if (newRegexes.size() == regexes.size()) {
+                break; // Keine neuen Kombinationen hinzugefügt
+            }
+
+            regexes = newRegexes;
         }
 
         return new ArrayList<>(regexes);
