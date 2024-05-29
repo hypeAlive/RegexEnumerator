@@ -4,8 +4,6 @@ import de.alive.regexbuilder.utils.RegexAlphabet;
 import de.alive.regexbuilder.utils.RegexOperationString;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.IntStream;
 
 /**
  * Diese Klasse dient zur Erzeugung von regulären Ausdrücken.
