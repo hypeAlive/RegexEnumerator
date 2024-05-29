@@ -33,19 +33,8 @@ public class RegexEnumerator {
             Set<String> newRegexes = new LinkedHashSet<>(regexes);
 
             for (String expr1 : regexes) {
-                for (String expr2 : regexes) {
-                    if (newRegexes.size() >= limit) break;
-
-                    // Konkatenation
-                    newRegexes.add(this.operationString.concat(expr1, expr2));
-                    if (newRegexes.size() >= limit) break;
-
-                    // Alternative
-                    newRegexes.add(this.operationString.alternation(expr1, expr2));
-                    if (newRegexes.size() >= limit) break;
-
-                    // Kleene-Stern
-                    newRegexes.add(this.operationString.kleene(expr1));
+                if (addCombinations(newRegexes, expr1, regexes, limit)) {
+                    break;
                 }
             }
 
@@ -57,6 +46,29 @@ public class RegexEnumerator {
         }
 
         return new ArrayList<>(regexes);
+    }
+
+    private boolean addCombinations(Set<String> newRegexes, String expr1, Set<String> regexes, int limit) {
+        for (String expr2 : regexes) {
+            // Konkatenation
+            newRegexes.add(this.operationString.concat(expr1, expr2));
+            if (newRegexes.size() >= limit) {
+                return true;
+            }
+
+            // Alternative
+            newRegexes.add(this.operationString.alternation(expr1, expr2));
+            if (newRegexes.size() >= limit) {
+                return true;
+            }
+
+            // Kleene-Stern
+            newRegexes.add(this.operationString.kleene(expr1));
+            if (newRegexes.size() >= limit) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
