@@ -8,16 +8,16 @@ public class OperationStringBuilder {
         ALL
     }
 
-    private static final String CONCAT = "·";
-    private static final String ALTERNATION = "+";
-    private static final String KLEENE = "*";
+    private static final char CONCAT = '·';
+    private static final char ALTERNATION = '+';
+    private static final char KLEENE = '*';
 
-    private String concatSymbol;
-    private String alternationSymbol;
-    private String kleeneSymbol;
+    private char concatSymbol;
+    private char alternationSymbol;
+    private char kleeneSymbol;
     private BracketMode bracketMode;
 
-    private OperationStringBuilder(String concatSymbol, String alternationSymbol, String kleeneSymbol, BracketMode bracketMode) {
+    private OperationStringBuilder(char concatSymbol, char alternationSymbol, char kleeneSymbol, BracketMode bracketMode) {
         this.concatSymbol = concatSymbol;
         this.alternationSymbol = alternationSymbol;
         this.kleeneSymbol = kleeneSymbol;
@@ -41,22 +41,22 @@ public class OperationStringBuilder {
 
     public static class Builder {
 
-        private String concatSymbol = OperationStringBuilder.CONCAT;
-        private String alternationSymbol = OperationStringBuilder.ALTERNATION;
-        private String kleeneSymbol = OperationStringBuilder.KLEENE;
+        private char concatSymbol = OperationStringBuilder.CONCAT;
+        private char alternationSymbol = OperationStringBuilder.ALTERNATION;
+        private char kleeneSymbol = OperationStringBuilder.KLEENE;
         private BracketMode bracketMode = BracketMode.NONE;
 
-        public Builder setConcatSymbol(String concatSymbol) {
+        public Builder setConcatSymbol(char concatSymbol) {
             this.concatSymbol = concatSymbol;
             return this;
         }
 
-        public Builder setAlternationSymbol(String alternationSymbol) {
+        public Builder setAlternationSymbol(char alternationSymbol) {
             this.alternationSymbol = alternationSymbol;
             return this;
         }
 
-        public Builder setKleeneSymbol(String kleeneSymbol) {
+        public Builder setKleeneSymbol(char kleeneSymbol) {
             this.kleeneSymbol = kleeneSymbol;
             return this;
         }
