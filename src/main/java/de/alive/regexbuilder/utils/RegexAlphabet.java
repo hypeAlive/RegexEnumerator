@@ -20,8 +20,10 @@ public class RegexAlphabet {
         }
     }
 
-    public void addCharacter(char c) {
-        alphabet.add(c);
+    public void addCharacter(char... c) {
+        for(char ch : c) {
+            alphabet.add(ch);
+        }
     }
 
     public void removeCharacter(char c) {
