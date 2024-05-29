@@ -1,7 +1,7 @@
-package main.java.de.alive.regexbuilder;
+package de.alive.regexbuilder;
 
-import main.java.de.alive.regexbuilder.utils.RegexAlphabet;
-import main.java.de.alive.regexbuilder.utils.RegexOperationString;
+import de.alive.regexbuilder.utils.RegexAlphabet;
+import de.alive.regexbuilder.utils.RegexOperationString;
 
 import java.util.*;
 

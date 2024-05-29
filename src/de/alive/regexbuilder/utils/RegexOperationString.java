@@ -1,4 +1,4 @@
-package main.java.de.alive.regexbuilder.utils;
+package de.alive.regexbuilder.utils;
 
 public class RegexOperationString {
 
