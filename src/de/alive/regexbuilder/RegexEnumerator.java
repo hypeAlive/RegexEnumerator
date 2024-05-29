@@ -7,6 +7,12 @@ import java.util.*;
 
 public class RegexEnumerator {
 
+    public enum SortOrder {
+        NO_SORT,
+        SMALL_FIRST,
+        BIG_FIRST
+    }
+
     private final RegexAlphabet alphabet;
     private final RegexOperationString operationString;
 
@@ -15,8 +21,21 @@ public class RegexEnumerator {
         this.operationString = operationString;
     }
 
-    public List<String> enumerate(int limit) {
-        Set<String> regexes = new HashSet<>();
+    public List<String> enumerate(int limit, SortOrder sortOrder) {
+        Set<String> regexes;
+        if (sortOrder == SortOrder.NO_SORT) {
+            regexes = new HashSet<>();
+        } else {
+            regexes = new TreeSet<>((a, b) -> {
+                int cmp = Integer.compare(a.length(), b.length());
+                if (cmp != 0) {
+                    return sortOrder == SortOrder.SMALL_FIRST ? cmp : -cmp;
+                } else {
+                    return a.compareTo(b);
+                }
+            });
+        }
+
         Queue<String> queue = new LinkedList<>();
 
         for (char c : alphabet.getAlphabet()) {
@@ -26,19 +45,22 @@ public class RegexEnumerator {
         while (!queue.isEmpty() && regexes.size() < limit) {
             String current = queue.poll();
             if (regexes.add(current)) {
-                for (String regex : new ArrayList<>(regexes)) {
-                    for (char c : alphabet.getAlphabet()) {
-                        String newRegex = operationString.concat(regex, String.valueOf(c));
+                for (char c : alphabet.getAlphabet()) {
+                    for (String regex : new ArrayList<>(regexes)) {
+                        // Konkatenation
+                        String newRegex = operationString.concat(current, String.valueOf(c));
                         if (!regexes.contains(newRegex)) {
                             queue.add(newRegex);
                         }
 
-                        newRegex = operationString.alternation(regex, String.valueOf(c));
+                        // Alternative
+                        newRegex = operationString.alternation(current, String.valueOf(c));
                         if (!regexes.contains(newRegex)) {
                             queue.add(newRegex);
                         }
 
-                        newRegex = operationString.kleene(regex);
+                        // Kleene-Stern
+                        newRegex = operationString.kleene(current);
                         if (!regexes.contains(newRegex)) {
                             queue.add(newRegex);
                         }

@@ -15,7 +15,7 @@ public class Main {
 
         RegexEnumerator enumerator = new RegexEnumerator(alphabet, operationString);
 
-        List<String> result = enumerator.enumerate(40);
+        List<String> result = enumerator.enumerate(40, RegexEnumerator.SortOrder.SMALL_FIRST);
 
         result.forEach(System.out::println);
     }
