@@ -1,5 +1,7 @@
 package de.alive.regexbuilder.utils;
 
+import java.util.regex.Pattern;
+
 public class RegexOperationString {
 
     public enum BracketMode {
@@ -11,6 +13,8 @@ public class RegexOperationString {
     private static final char CONCAT = '·';
     private static final char ALTERNATION = '+';
     private static final char KLEENE = '*';
+
+    private static final Pattern bracketRemover = Pattern.compile("\\\\(([^()]+)\\\\)");
 
     private char concatSymbol;
     private char alternationSymbol;
@@ -30,13 +34,29 @@ public class RegexOperationString {
     }
 
     public String alternation(String a, String b) {
+
+        if(a.length() > 2)
+            a = "(" + a + ")";
+
+        if(b.length() > 2)
+            b = "(" + b + ")";
+
         String result = a + alternationSymbol + b;
-        return bracketMode != BracketMode.NONE ? "(" + result + ")" : result;
+        result = bracketMode == BracketMode.ALL ? "(" + result + ")" : result;
+
+        if(bracketMode == BracketMode.NECESSARY)
+            return this.removeUnnecessaryBrackets(result);
+
+        return result;
     }
 
     public String kleene(String a) {
-        String result = bracketMode != BracketMode.NONE ? "(" + a + ")" + kleeneSymbol : a + kleeneSymbol;
-        return bracketMode != BracketMode.ALL ? "(" + result + ")" : result;
+        String result = bracketMode != BracketMode.NECESSARY ? "(" + a + ")" + kleeneSymbol : a + kleeneSymbol;
+        return bracketMode == BracketMode.ALL ? "(" + result + ")" : result;
+    }
+
+    public String removeUnnecessaryBrackets(String str) {
+        return bracketRemover.matcher(str).replaceAll("$1");
     }
 
     public static Builder create() {
